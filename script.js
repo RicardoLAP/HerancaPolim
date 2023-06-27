@@ -1,138 +1,161 @@
 class Forma {
+    #altura
+
     constructor(altura) {
     this.altura = altura
     }
 
+    get altura() {
+    return this.#altura
+    }
+
+    set altura(novaAltura) {
+    if (typeof novaAltura === 'number' && !isNaN(novaAltura)) {
+        this.#altura = novaAltura
+    } else {
+        console.log("Erro: Altura deve ser um valor numérico.")
+    }
+    }
+
     calcularArea() {
-    console.log("Função 'calcularArea' da classe-mãe foi acessada.")
-      // Implemente o cálculo da área aqui e retorne o resultado
+    console.log("Acesso à função da classe-mãe")
     }
 
     calcularVolume() {
-    console.log("Função 'calcularVolume' da classe-mãe foi acessada.")
-      // Implemente o cálculo do volume aqui e retorne o resultado
+    console.log("Acesso à função da classe-mãe")
     }
 }
 
 class FormaPlana extends Forma {
+    #tipo
+    #base
+    #comprimento
+
     constructor(altura, tipo, base, comprimento) {
-    super(altura);
-    this._tipo = tipo.toLowerCase();
-    this._base = base;
-    this._comprimento = comprimento;
+    super(altura)
+    this.tipo = tipo
+    this.base = base
+    this.comprimento = comprimento;
     }
 
     get tipo() {
-    return this._tipo;
+    return this.#tipo
     }
 
     set tipo(novoTipo) {
-    this._tipo = novoTipo.toLowerCase();
+    this.#tipo = novoTipo.toLowerCase()
     }
 
     get base() {
-    return this._base;
+    return this.#base
     }
 
     set base(novaBase) {
-    this._base = novaBase;
+    if (typeof novaBase === 'number' && !isNaN(novaBase)) {
+        this.#base = novaBase
+    } else {
+        console.log("Erro: Base deve ser um valor numérico.")
+    }
     }
 
     get comprimento() {
-    return this._comprimento;
+    return this.#comprimento
     }
 
     set comprimento(novoComprimento) {
-    this._comprimento = novoComprimento;
+    if (typeof novoComprimento === 'number' && !isNaN(novoComprimento)) {
+        this.#comprimento = novoComprimento
+    } else {
+        console.log("Erro: Comprimento deve ser um valor numérico.")
+    }
     }
 
     calcularArea() {
-    if (this._tipo === "retangular") {
-        return parseFloat((this._base * this._comprimento).toFixed(2));
-    } else if (this._tipo === "triangular") {
-        return parseFloat(((this._base * this._comprimento) / 2).toFixed(2));
+    if (this.tipo === "retangular") {
+        return parseFloat((this.base * this.comprimento).toFixed(2))
+    } else if (this.tipo === "triangular") {
+        return parseFloat(((this.base * this.comprimento) / 2).toFixed(2))
     } else {
-        console.log("Erro: Tipo inválido da forma.");
-        return 0;
+        console.log("Erro: Tipo inválido da forma.")
+        return 0
     }
     }
 
     calcularVolume() {
-    if (this._tipo === "retangular") {
-        const areaBase = this.calcularArea();
-        return parseFloat((areaBase * this.altura).toFixed(2));
-    } else if (this._tipo === "triangular") {
-        const areaBase = this.calcularArea();
-        return parseFloat(((areaBase * this.altura) / 3).toFixed(2));
+    if (this.tipo === "retangular") {
+        const areaBase = this.calcularArea()
+        return parseFloat((areaBase * this.altura).toFixed(2))
+    } else if (this.tipo === "triangular") {
+        const areaBase = this.calcularArea()
+        return parseFloat(((areaBase * this.altura) / 3).toFixed(2))
     } else {
-        console.log("Erro: Tipo inválido da forma.");
-        return 0;
+        console.log("Erro: Tipo inválido da forma.")
+        return 0
     }
     }
 }
 
-
 class FormaCircular extends Forma {
-    #pi = 3.14;
-    #raio;
+    static #pi = 3.14
+    #raio
 
     constructor(raio, altura) {
-    super(altura);
-    this.#raio = raio;
+    super(altura)
+    this.raio = raio
     }
 
     get raio() {
-    return this.#raio;
+    return this.#raio
     }
 
     set raio(novoRaio) {
-    this.#raio = novoRaio;
+    if (typeof novoRaio === 'number' && !isNaN(novoRaio)) {
+        this.#raio = novoRaio
+    } else {
+        console.log("Erro: Raio deve ser um valor numérico.")
+    }
     }
 
     calcularArea() {
-      const area = this.#pi * Math.pow(this.#raio, 2);
-    return area;
+      return parseFloat((FormaCircular.#pi * this.raio ** 2).toFixed(2))
     }
 
     calcularVolumeCilindro() {
-    const areaBase = this.calcularArea();
-      const volume = areaBase * this.altura;
-    return volume;
+    const areaBase = this.calcularArea()
+      return parseFloat((areaBase * this.altura).toFixed(2))
     }
 
     calcularVolumeCone() {
-    const areaBase = this.calcularArea();
-      const volume = (areaBase * this.altura) / 3;
-    return volume;
+    const areaBase = this.calcularArea()
+      return parseFloat(((areaBase * this.altura) / 3).toFixed(2))
     }
 
     calcularVolumeEsfera() {
-    const areaBase = this.calcularArea();
-      const volume = areaBase * this.#raio * 4 / 3;
-    return volume;
+    const areaBase = this.calcularArea()
+      return parseFloat((areaBase * this.raio * 1.33).toFixed(2))
     }
 }
 
-// Instanciando objeto da classe Forma
-const forma = new Forma(5);
-console.log(forma.altura);  // Saída: 5
-forma.calcularArea();  // Saída: Acesso à função da classe-mãe
-forma.calcularVolume();  // Saída: Acesso à função da classe-mãe
+  // Teste das classes
 
-// Instanciando objeto da classe FormaPlana
-const formaPlana = new FormaPlana(10, "Retangular", 4, 6);
-console.log(formaPlana.altura);  // Saída: 10
-console.log(formaPlana.tipo);  // Saída: retangular
-console.log(formaPlana.base);  // Saída: 4
-console.log(formaPlana.comprimento);  // Saída: 6
-console.log(formaPlana.calcularArea());  // Saída: 24
-console.log(formaPlana.calcularVolume());  // Saída: 240
+  // Instanciando objetos e executando métodos
+const forma = new Forma(5)
+console.log("Altura da forma:", forma.altura)
+forma.calcularArea()
+forma.calcularVolume()
 
-// Instanciando objeto da classe FormaCircular
-const formaCircular = new FormaCircular(3, 8);
-console.log(formaCircular.altura);  // Saída: 8
-console.log(formaCircular.raio);  // Saída: 3
-console.log(formaCircular.calcularArea());  // Saída: 28.26
-console.log(formaCircular.calcularVolumeCilindro());  // Saída: 226.08
-console.log(formaCircular.calcularVolumeCone());  // Saída: 75.36
-console.log(formaCircular.calcularVolumeEsfera());  // Saída: 113.04
+const formaPlana = new FormaPlana(3, "retangular", 4, 6)
+console.log("Altura da forma plana:", formaPlana.altura)
+console.log("Tipo da forma plana:", formaPlana.tipo)
+console.log("Base da forma plana:", formaPlana.base)
+console.log("Comprimento da forma plana:", formaPlana.comprimento)
+console.log("Área da forma plana:", formaPlana.calcularArea())
+console.log("Volume da forma plana:", formaPlana.calcularVolume())
+
+const formaCircular = new FormaCircular(2, 4)
+console.log("Altura da forma circular:", formaCircular.altura)
+console.log("Raio da forma circular:", formaCircular.raio)
+console.log("Área da forma circular:", formaCircular.calcularArea())
+console.log("Volume do cilindro:", formaCircular.calcularVolumeCilindro())
+console.log("Volume do cone:", formaCircular.calcularVolumeCone())
+console.log("Volume da esfera:", formaCircular.calcularVolumeEsfera())
